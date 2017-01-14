@@ -13,8 +13,8 @@ module Associatable
 
       source_table = source_options.model_class.table_name
       through_table = through_options.model_class.table_name
-      through_primary = "#{through_table}.#{through_options.primary_key}"
-      source_foreign = source_options.foreign_key
+      through_foreign = "#{through_table}.#{through_options.foreign_key}"
+      source_primary = "#{source_table}.#{source_options.primary_key}"
       source_class = source_options.model_class
 
       query = DBConnection.execute(<<-SQL, foreign_key)
@@ -24,7 +24,7 @@ module Associatable
           #{source_table}
         JOIN
           #{through_table}
-          ON #{through_primary} = #{source_foreign}
+          ON #{through_foreign} = #{source_primary}
         WHERE
           #{through_primary} = ?
       SQL
