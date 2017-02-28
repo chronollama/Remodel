@@ -12,3 +12,5 @@ class AttrAccessorObject
     end
   end
 end
+
+# TODO: remove this file

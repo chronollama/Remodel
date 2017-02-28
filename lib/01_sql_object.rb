@@ -1,8 +1,5 @@
 require_relative 'db_connection'
 require 'active_support/inflector'
-require 'byebug'
-# NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
-# of this project. It was only a warm up.
 
 class SQLObject
   def self.columns
@@ -14,7 +11,7 @@ class SQLObject
           *
         FROM
           #{table_name}
-      SQL
+      # SQL
       @column_names = column_names.first.map(&:to_sym)
     end
   end
@@ -100,7 +97,6 @@ class SQLObject
     col_names = self.class.columns.reject { |col| col == :id }
     num_question_marks = self.class.columns.size - 1
     question_marks = (["?"] * num_question_marks)
-    values = attribute_values
     DBConnection.execute(<<-SQL, *attribute_values(true))
       INSERT INTO
         #{self.class.table_name} (#{col_names.join(", ")})
