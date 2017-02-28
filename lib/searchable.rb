@@ -3,7 +3,7 @@ require_relative '01_sql_object'
 
 module Searchable
   def where(params)
-    conditions = params.keys.map { |col| "#{col} = ?"}
+    conditions = params.keys.map { |col| "#{col} = ?" }
     results = DBConnection.execute(<<-SQL, *params.values)
       SELECT
         *
@@ -12,8 +12,7 @@ module Searchable
       WHERE
         #{conditions.join(" AND ")}
     SQL
-
-    results.empty? ? [] : results.map { |result| self.new(result) }
+    results.map { |result| self.new(result) }
   end
 end
 
