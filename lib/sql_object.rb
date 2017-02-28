@@ -2,6 +2,17 @@ require_relative 'db_connection'
 require 'active_support/inflector'
 
 class SQLObject
+  def initialize(params = {})
+    params.each do |attr_name, val|
+      attr_name = attr_name.to_sym
+      if self.class.columns.include?(attr_name)
+        send("#{attr_name}=", val)
+      else
+        raise "unknown attribute '#{attr_name}'"
+      end
+    end
+  end
+  
   def self.all
     results = DBConnection.execute(<<-SQL)
       SELECT
@@ -48,17 +59,6 @@ class SQLObject
         id = #{id}
     SQL
     result.empty? ? nil : self.new(result.first)
-  end
-
-  def initialize(params = {})
-    params.each do |attr_name, val|
-      attr_name = attr_name.to_sym
-      if self.class.columns.include?(attr_name)
-        send("#{attr_name}=", val)
-      else
-        raise "unknown attribute '#{attr_name}'"
-      end
-    end
   end
 
   def insert

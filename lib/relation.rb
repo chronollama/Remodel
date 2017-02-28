@@ -1,8 +1,8 @@
 class Relation
   extend Searchable
 
-  def self.queries
-    @queries ||= []
+  def initialize
+    @queries = []
   end
 
   def first
@@ -44,12 +44,12 @@ class Relation
         #{conditions.join(" AND ")}
     SQL
     @queries << query
-    @queries.make_it_sql
+    self
   end
 
   private
 
-  def make_it_sql
+  def run_queries
 
   end
 end
