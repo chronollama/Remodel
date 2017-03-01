@@ -3,6 +3,7 @@ class Relation
 
   def initialize
     @queries = []
+    @params = []
   end
 
   def first
@@ -34,8 +35,8 @@ class Relation
   end
 
   def where(params)
-    conditions = params.keys.map { |col| "#{col} = ?"}
-    query = DBConnection.execute(<<-SQL, *params.values)
+    conditions = params.keys.map { |col| "#{col} = ?" }
+    query = <<-SQL
       SELECT
         *
       FROM
@@ -43,13 +44,14 @@ class Relation
       WHERE
         #{conditions.join(" AND ")}
     SQL
-    @queries << query
+    self.queries << query
+    self.params << params
     self
   end
 
   private
 
   def run_queries
-
+    
   end
 end

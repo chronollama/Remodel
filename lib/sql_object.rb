@@ -12,7 +12,7 @@ class SQLObject
       end
     end
   end
-  
+
   def self.all
     results = DBConnection.execute(<<-SQL)
       SELECT
@@ -37,7 +37,7 @@ class SQLObject
     end
   end
 
-  def self.finalize!
+  def self.finalize
     columns.each do |column_name|
       define_method(column_name) do
         attributes[column_name]
