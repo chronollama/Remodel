@@ -1,11 +1,5 @@
 class Validator
   attr_accessor :presence, :uniqueness
-
-  def validates(options = {})
-
-
-  end
-
 end
 
 class ValidatorDefaults < Validator
